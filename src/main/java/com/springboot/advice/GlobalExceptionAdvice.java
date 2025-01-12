@@ -55,11 +55,14 @@ public class GlobalExceptionAdvice {
         return ErrorResponse.of(e);
     }
     // TODO GlobalExceptionAdvice 기능 추가 3
-    public ErrorResponse handleException(NullPointerException e){
-        //예외처리 객체를 불러야해
-        final ErrorResponse response = ErrorResponse.of(e);
 
-        return ErrorResponse.of(ExceptionCode.valueOf(), ExceptionCode.values()) ;
+    @ExceptionHandler
+    public ErrorResponse handleException(NullPointerException e){
+        //최종 이해한,,, of가 객체를 만들어, ErrorResponse에 of가 만든 객체를 인자로 받은 생성자의 반환값이 들어와.
+
+//        return ErrorResponse.of(ExceptionCode.valueOf(e.getMessage()), ExceptionCode.values()) ;
+//        return ErrorResponse.of(response, HttpStatus.INTERNAL_SERVER_ERROR) ;
+        return ErrorResponse.of(e);
     }
 
 }

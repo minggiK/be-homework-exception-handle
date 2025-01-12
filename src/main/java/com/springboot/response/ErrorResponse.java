@@ -19,18 +19,19 @@ public class ErrorResponse {
     private String message;
     private int status;
 
-    private ErrorResponse(final List<FieldError> fieldErrors,
-                          final List<ConstraintViolationError> violationErrors) {
-        this.fieldErrors = fieldErrors;
-        this.violationErrors = violationErrors;
-    }
-
     private ErrorResponse(String message,
                           int status) {
 
         this.message = message;
         this.status = status;
     }
+    private ErrorResponse(final List<FieldError> fieldErrors,
+                          final List<ConstraintViolationError> violationErrors) {
+        this.fieldErrors = fieldErrors;
+        this.violationErrors = violationErrors;
+    }
+
+
 //    private ExceptionCode exceptionCodes;
 //
 //    private ErrorResponse(final List<FieldError> fieldErrors,
@@ -56,12 +57,17 @@ public class ErrorResponse {
     }
 
     public static ErrorResponse of(HttpRequestMethodNotSupportedException e) {
+
         return new ErrorResponse(HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase(), HttpStatus.METHOD_NOT_ALLOWED.value());
     }
 
     public static ErrorResponse of(NullPointerException e) {
-        return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        //ExceptionCode 를 불러오지 않아서 에러
+        return new ErrorResponse(ExceptionCode.INTERNAL_SERVER_ERROR.getMessage(), ExceptionCode.INTERNAL_SERVER_ERROR.getStatus());
+
     }
+
+
 
     @Getter
     public static class FieldError {
